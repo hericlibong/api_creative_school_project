@@ -1,18 +1,19 @@
-import django
 import os
+import sys
+import django
 
+# Ajouter le chemin du projet dans sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Spécifier le module Django settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'student_association.settings')
+
+# Initialiser Django
 django.setup()
 
 from students.models import Club
 
 def create_clubs():
-    """
-    Crée une liste de clubs prédéfinis et les enregistre dans la base de données s'ils n'existent pas déjà.
-    Pour chaque club, la fonction vérifie s'il existe déjà dans la base de données.
-    Si le club n'existe pas, il est créé et un message indiquant "Créé" est affiché.
-    Si le club existe déjà, un message indiquant "Déjà existant" est affiché.
-    """
     clubs = [
         "Club Informatique",
         "Club Sportif",
@@ -29,3 +30,4 @@ def create_clubs():
 if __name__ == "__main__":
     create_clubs()
     print("✅ Tous les clubs ont été ajoutés avec succès !")
+
