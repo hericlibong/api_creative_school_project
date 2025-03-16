@@ -13,7 +13,11 @@ class ClubSerializer(serializers.ModelSerializer):
 
 class StudentSerializer(serializers.ModelSerializer):
     discipline_name = serializers.ReadOnlyField(source='discipline.name')  # Récupère le nom de la 
-    clubs = ClubSerializer(many=True, read_only=True)  # Afficher directement les clubs
+    clubs = serializers.SlugRelatedField(
+        many=True,  # Un étudiant peut avoir plusieurs clubs
+        read_only=True,
+        slug_field = 'name'  # Récupère les noms des clubs
+    )  
 
     class Meta:
         model = Student
