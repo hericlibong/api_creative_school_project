@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Discipline, Student, Club, Membership
+from .models import Discipline, Student, Club
 
 class DisciplineSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,16 +12,9 @@ class ClubSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class StudentSerializer(serializers.ModelSerializer):
-    discipline_name = serializers.ReadOnlyField(source='discipline.name')  # Récupère le nom de la discipline
+    discipline_name = serializers.ReadOnlyField(source='discipline.name')  # Récupère le nom de la 
+    clubs = ClubSerializer(many=True, read_only=True)  # Afficher directement les clubs
 
     class Meta:
         model = Student
-        fields = ['id', 'first_name', 'last_name', 'email', 'gender', 'discipline', 'discipline_name']
-
-class MembershipSerializer(serializers.ModelSerializer):
-    student_name = serializers.ReadOnlyField(source='student.first_name')
-    club_name = serializers.ReadOnlyField(source='club.name')
-
-    class Meta:
-        model = Membership
-        fields = ['id', 'student', 'student_name', 'club', 'club_name', 'date_joined']
+        fields = ['id', 'first_name', 'last_name', 'email', 'gender', 'discipline', 'discipline_name', 'clubs']
